@@ -2,19 +2,26 @@ $(function () {
   /* 函数调用实例 */
   /* 今日到馆 */
   var x1 = ['8时', '9时', '10时', '11时', '12时', '13时', '14时', '15时', '16时', '17时', '18时'];
-  var data1 = [101, 102, 103, 100, 108, 110, 120, 100, 110, 80, 70];
-  var data2 = [20, 10, 30, 100, 10, 20, 50, 200, 150, 200, 205];
+  var data1 = [101, 102, 103, 100, 108, 110, 120, 100, 110, 80, 70]; // 入馆
+  var data2 = [20, 10, 30, 100, 10, 20, 50, 200, 150, 200, 205]; // 出馆
 
   linechartForGraph1E2(x1, data1, data2, 'graph1');
 
   /* 22类借书量 */
-  var data2 = [{value: 10,name: 'A'}, {value: 1087,name: 'B'}, {value: 103,name: 'C'}, {value: 237,name: 'D'}, {value: 151,name: 'E'}, {value: 92,name: 'F'}, {value: 4660,name: 'G'}, {value: 1049,name: 'H'}, {value: 14875,name: 'I'}, {value: 248,name: 'J'}, {value: 12528,name: 'K'}, {value: 83,name: 'N'}, {value: 222,name: 'O'}, {value: 129,name: 'P'}, {value: 79,name: 'Q'}, {value: 152,name: 'R'}, {value: 7,name: 'S'}, {value: 44555,name: 'T'}, {value: 8,name: 'U'}, {value: 4,name: 'V'}, {value: 10,name: 'X'}, {value: 281,name: 'Z'}];
+  // name
+  var data21 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'N', 'O', 'P', 'Q', 'R', 'T', 'U', 'V', 'X', 'Z'];
+  // value
+  var data22 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2];
 
-  piechartForGraph2(data2, 'graph2');
+  piechartForGraph2(data21, data22, 'graph2');
 
   /* 读者类别 */
-  var data3 = [{value: 50,name: '学生'}, {value: 140,name: '上杭南阳射山分馆读者'}, {value: 230,name: '普通'}, {value: 89,name: '馆外读者'}, {value: 15,name: '特殊读者'}, {value: 10,name: '个别'}, {value: 20,name: '工作人员'}, {value: 340,name: '社保卡'}, {value: 50,name: '上杭县公安局读者'}, {value: 240,name: '一般读者'}, {value: 123,name: '老年活动中心分馆'}];
-  piechartForGraph3(data3, 'graph3');
+
+  // name
+  var data31 = ['学生', '上杭南阳射山分馆读者', '普通', '馆外读者', '特殊读者', '个别', '工作人员', '社保卡', '上杭县公安局读者', '一般读者', '老年活动中心分馆'];
+  // value
+  var data32 = [50, 140, 230, 89, 15, 10, 20, 340, 50, 140, 123];
+  piechartForGraph3(data31, data32, 'graph3');
 
 });
 
@@ -233,10 +240,19 @@ function linechartForGraph1E2(x, data1, data2, obj) {
 }
 
 /* 饼图 for 22大类总借书量 */
-function piechartForGraph2(data, obj) {
+function piechartForGraph2(data1, data2, obj) {
   var myChart = echarts.getInstanceByDom(document.getElementById(obj));
   if (myChart === undefined) {
     var myChart = echarts.init(document.getElementById(obj));
+  }
+
+  /* 组合数组 */
+  var data3 = [];
+  for (var i in data1) {
+    data3[i] = {
+      value: data2[i],
+      name: data1[i]
+    }
   }
 
   var option = {
@@ -255,7 +271,7 @@ function piechartForGraph2(data, obj) {
         type: 'pie',
         radius: ['50%', '70%'],
         center: ['50%', '60%'],
-        data: data,
+        data: data3,
         label: {
           normal: {
             formatter: '{b}:{per|{c} ({d}%)}',
@@ -300,10 +316,19 @@ function piechartForGraph2(data, obj) {
 }
 
 /* 饼图 for 读者类别 */
-function piechartForGraph3(data, obj) {
+function piechartForGraph3(data1, data2, obj) {
   var myChart = echarts.getInstanceByDom(document.getElementById(obj));
   if (myChart === undefined) {
     var myChart = echarts.init(document.getElementById(obj));
+  }
+
+  /* 组合数组 */
+  var data3 = [];
+  for (var i in data1) {
+    data3[i] = {
+      value: data2[i],
+      name: data1[i]
+    }
   }
 
   var option = {
@@ -323,7 +348,7 @@ function piechartForGraph3(data, obj) {
         radius: [30, 110],
         center: ['50%', '40%'],
         roseType: 'radius',
-        data: data,
+        data: data3,
         label: {
           normal: {
             formatter: '{b}\n{per|{c} ({d}%)}',
